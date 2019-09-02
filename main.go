@@ -4,48 +4,30 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"net/http"
 	"time"
-	"github.com/gorilla/mux"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
-type Place struct {
-	ID				primitive.ObjectID	`json:"_id,omitempty" bson:"_id,omitempty"`
-	Country			string				`json:"place,omitempty" bson:"country,omitempty"`
-	Avg_Price	int					`json:"avg_price,omitempty" bson:"avg_price,omitempty"`
-}
 
 var client *mongo.Client
 
-func CreatePlaceEndpoint(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("content-type","application-json")
-	var place Place
-	json.NewDecoder(r.Body).Decode(&place)
-	collection := client.Database("airbnb").Collection("place_rec")
-	ctx, _ := context.WithTimeout(context.Background(), 5 * time.Second)
-	result, _ := collection.InsertOne(ctx,place)
-	json.NewEncoder(w).Encode(result)
-}
-
 func GetPlaceEndpoint(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type","application-json")
-	var places []Place
-	fmt.Println(client)
-	collection := client.Database("airbnb").Collection("place_rec")
+	var places []WorldExperience
+	collection := client.Database("airbnb").Collection("world_experiences")
 	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
 	cursor, err := collection.Find(ctx, bson.M{})
 	if err != nil {
-		fmt.Fprintf(w,"Damn it!")
+		fmt.Fprintf(w,"Collection / Document Not Found")
 		log.Fatal(err)
 	}
 	defer cursor.Close(ctx)
 	for cursor.Next(ctx) {
-		var place Place
+		var place WorldExperience
 		cursor.Decode(&place)
 		places = append(places,place)
 	}
@@ -57,19 +39,19 @@ func GetPlaceEndpoint(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(places)
 }
 
-func connect(){
+func startSession(){
 	fmt.Println("Starting MongoDB Session")
-
 	clientOptions := options.Client().ApplyURI("mongodb://kentang.online:27017")
 	fmt.Printf("%+v",clientOptions)
 	client , _ = mongo.Connect(context.Background(),clientOptions)
 
 	r := mux.NewRouter()
-	r.HandleFunc("/places-to-stay",GetPlaceEndpoint).Methods("GET")
-	fmt.Println("OI")
+	r.HandleFunc("/places",GetPlaceEndpoint).Methods("GET")
+	fmt.Println("Starting Session")
 	http.ListenAndServe(":3001",r)
 }
 
 func main() {
-	connect()
+	// connect()
+	// handleRequest()
 }
