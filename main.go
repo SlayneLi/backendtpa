@@ -46,12 +46,11 @@ func startSession(){
 	client , _ = mongo.Connect(context.Background(),clientOptions)
 
 	r := mux.NewRouter()
-	r.HandleFunc("/places",GetPlaceEndpoint).Methods("GET")
+	r.HandleFunc("/world-experiences",GetPlaceEndpoint).Methods("GET")
 	fmt.Println("Starting Session")
 	http.ListenAndServe(":3001",r)
 }
 
 func main() {
-	// connect()
-	// handleRequest()
+	startSession()
 }
