@@ -35,7 +35,6 @@ func CreatePlaceEndpoint(w http.ResponseWriter, r *http.Request) {
 func GetPlaceEndpoint(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type","application-json")
 	var places []Place
-	fmt.Println("nani kore")
 	fmt.Println(client)
 	collection := client.Database("airbnb").Collection("place_rec")
 	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
@@ -66,11 +65,9 @@ func connect(){
 	client , _ = mongo.Connect(context.Background(),clientOptions)
 
 	r := mux.NewRouter()
-	r.HandleFunc("/places",GetPlaceEndpoint).Methods("GET")
-	r.HandleFunc("/place",CreatePlaceEndpoint).Methods("POST")
+	r.HandleFunc("/places-to-stay",GetPlaceEndpoint).Methods("GET")
 	fmt.Println("OI")
 	http.ListenAndServe(":3001",r)
-	fmt.Println("mati lampu")
 }
 
 func main() {
