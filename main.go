@@ -61,7 +61,7 @@ func GetPlaceEndpoint(w http.ResponseWriter, r *http.Request) {
 func connect(){
 	fmt.Println("Starting MongoDB Session")
 
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017/test?compressors=disabled&gssapiServiceName=mongodb")
+	clientOptions := options.Client().ApplyURI("mongodb://kentang.online:27017")
 	fmt.Printf("%+v",clientOptions)
 	client , _ = mongo.Connect(context.Background(),clientOptions)
 
