@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -25,7 +26,9 @@ func startSession(){
 	r.HandleFunc("/bandung-place-recommendations",pr.GetBandungRecommendations).Methods("GET")
 	r.HandleFunc("/insertExperience",pr.insertPlace).Methods("POST")
 	fmt.Println("Starting Session")
-	http.ListenAndServe(":3001",r)
+	http.ListenAndServe(":3001",handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}),
+		handlers.AllowedOrigins([]string{"*"}))(r))
 }
 
 func main() {
