@@ -18,8 +18,8 @@ func startSession(){
 	client , _ = mongo.Connect(context.Background(),clientOptions)
 
 	r := mux.NewRouter()
-	//w := WorldExperience{}
-	pr := PlaceRecommendation{}
+	w := WorldExperience{}
+	//pr := PlaceRecommendation{}
 	r.HandleFunc("/world-experiences",w.GetExperiences).Methods("GET")
 	//r.HandleFunc("/world-place-recommendations",pr.GetWorldRecommendation).Methods("GET")
 	//r.HandleFunc("/bandung-place-recommendations",pr.GetBandungRecommendation).Methods("GET")
