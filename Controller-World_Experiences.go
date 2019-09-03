@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
@@ -10,7 +9,7 @@ import (
 	"time"
 )
 
-func (world WorldExperience) GetPlaceEndpoint(w http.ResponseWriter, r *http.Request) {
+func (world WorldExperience) GetExperiences(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type","application-json")
 	var places []WorldExperience
 	collection := client.Database("airbnb").Collection("world_experiences")
@@ -30,6 +29,4 @@ func (world WorldExperience) GetPlaceEndpoint(w http.ResponseWriter, r *http.Req
 	if err := cursor.Err(); err != nil {
 		log.Fatal(err)
 	}
-
-	json.NewEncoder(w).Encode(places)
 }
