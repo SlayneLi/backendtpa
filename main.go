@@ -20,7 +20,7 @@ func startSession(){
 	w := WorldExperience{}
 	pr := PlaceRecommendation{}
 	r.HandleFunc("/world-experiences",w.GetExperiences).Methods("GET")
-	r.HandleFunc("/bandung-place-recommendation/{id}",pr.GetBandungRecommendation).Methods("GET")
+	r.HandleFunc("/bandung-place-recommendation/{id}",pr.GetBandungRecommendationByID).Methods("GET")
 	r.HandleFunc("/world-place-recommendations",pr.GetWorldRecommendation).Methods("GET")
 	r.HandleFunc("/bandung-place-recommendations",pr.GetBandungRecommendations).Methods("GET")
 	fmt.Println("Starting Session")

@@ -58,12 +58,8 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendations(w http.
 	json.NewEncoder(w).Encode(recommendations)
 }
 
-<<<<<<< HEAD
-func (placeRecommendation PlaceRecommendation) GetBandungRecommendation(w http.ResponseWriter, r *http.Request) {
-=======
 func (placeRecommendation PlaceRecommendation) GetBandungRecommendationByID (w http.ResponseWriter, r *http.Request){
 	w.Header().Add("content-type","application-json")
->>>>>>> e833a1d48ccd1033603f8c5a1272fadd83a7d4c7
 	params := mux.Vars(r)
 	id, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {
@@ -72,36 +68,23 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendationByID (w h
 		fmt.Fprintf(w, "%+v", err.Error())
 		return
 	}
-<<<<<<< HEAD
-	w.Header().Add("content-type", "application-json")
-=======
->>>>>>> e833a1d48ccd1033603f8c5a1272fadd83a7d4c7
 	var recommendation PlaceRecommendation
 	collection := client.Database("airbnb").Collection("bandung_places_to_stay")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	filter := bson.M{
 		"_id": id,
 	}
-<<<<<<< HEAD
-	err = collection.FindOne(ctx, filter).Decode(&recommendation)
-	if err != nil {
-		fmt.Fprintf(w, "Collection / Document Not Found")
-=======
 
 	err = collection.FindOne(ctx,filter).Decode(&recommendation)
 	if err != nil {
 		fmt.Fprintf(w,"Collection / Document Not Found")
 		log.Fatal(err)
+		return
 	}
 
 	if err != nil {
->>>>>>> e833a1d48ccd1033603f8c5a1272fadd83a7d4c7
 		log.Fatal(err)
 		return
 	}
 	json.NewEncoder(w).Encode(recommendation)
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> e833a1d48ccd1033603f8c5a1272fadd83a7d4c7
