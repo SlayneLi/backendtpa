@@ -88,7 +88,7 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendationByID (w h
 
 func (placeRecommendation PlaceRecommendation) insertPlace(w http.ResponseWriter, r *http.Request){
 	w.Header().Add("content-type","application-json")
-	collection := client.Database("airbnb").Collection("world_experiences")
+	collection := client.Database("airbnb").Collection("places_to_stay")
 	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
 
 	var recommendation PlaceRecommendation
