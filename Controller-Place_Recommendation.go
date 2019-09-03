@@ -88,5 +88,10 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendation (w http.
 	if err := cursor.Err(); err != nil {
 		log.Fatal(err)
 	}
+<<<<<<< HEAD
 	json.NewEncoder(w).Encode(recommendations)
 }
+=======
+	json.NewEncoder(w).Encode(id)
+}
+>>>>>>> d7fc485d729064490800d3313b652500cbc5edd1
