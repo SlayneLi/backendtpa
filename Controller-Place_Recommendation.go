@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
@@ -9,7 +10,7 @@ import (
 	"time"
 )
 
-func (pr PlaceRecommendation) GetWorldRecommendation (w http.ResponseWriter, r *http.Request){
+func (placeRecommendation PlaceRecommendation) GetWorldRecommendation (w http.ResponseWriter, r *http.Request){
 	w.Header().Add("content-type","application-json")
 	var recommendations []PlaceRecommendation
 	collection := client.Database("airbnb").Collection("places_to_stay")
@@ -29,9 +30,10 @@ func (pr PlaceRecommendation) GetWorldRecommendation (w http.ResponseWriter, r *
 	if err := cursor.Err(); err != nil {
 		log.Fatal(err)
 	}
+	json.NewEncoder(w).Encode(recommendations)
 }
 
-func (pr PlaceRecommendation) GetBandungRecommendation (w http.ResponseWriter, r *http.Request){
+func (placeRecommendation PlaceRecommendation) GetBandungRecommendation (w http.ResponseWriter, r *http.Request){
 	w.Header().Add("content-type","application-json")
 	var recommendations []PlaceRecommendation
 	collection := client.Database("airbnb").Collection("bandung_places_to_stay")
@@ -51,4 +53,5 @@ func (pr PlaceRecommendation) GetBandungRecommendation (w http.ResponseWriter, r
 	if err := cursor.Err(); err != nil {
 		log.Fatal(err)
 	}
+	json.NewEncoder(w).Encode(recommendations)
 }
