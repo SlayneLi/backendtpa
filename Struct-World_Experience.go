@@ -3,7 +3,7 @@ package main
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type WorldExperience struct {
-	ID	primitive.ObjectID `json:"id" bson:"_id"`
+	ID primitive.ObjectID `json:"id" bson:"_id"`
 	City string `json:"city" bson:"city"`
 	Country string `json:"country" bson:"country"`
 	Type string `json:"type" bson:"type"`
