@@ -85,3 +85,18 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendationByID (w h
 	}
 	json.NewEncoder(w).Encode(recommendation)
 }
+
+func (placeRecommendation PlaceRecommendation) insertPlace(w http.ResponseWriter, r *http.Request){
+	w.Header().Add("content-type","application-json")
+	collection := client.Database("airbnb").Collection("world_experiences")
+	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+
+	var recommendation PlaceRecommendation
+	json.NewDecoder(r.Body).Decode(&recommendation)	//ngambil dari body terus masuk ke variable penampung
+	res,err := collection.InsertOne(ctx,recommendation)
+	if err != nil{
+		fmt.Fprintf(w,"%+v",err.Error())
+		return
+	}
+	json.NewEncoder(w).Encode(res)
+}
