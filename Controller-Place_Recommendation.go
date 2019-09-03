@@ -63,6 +63,7 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendation (w http.
 	id, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil{
 		fmt.Fprintln(w,"something crashed")
+		fmt.Fprintf(w,"%+v",params)
 		fmt.Fprintf(w,"%+v",err.Error())
 	}
 	w.Header().Add("content-type","application-json")
