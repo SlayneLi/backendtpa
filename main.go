@@ -23,6 +23,7 @@ func startSession(){
 	r.HandleFunc("/bandung-place-recommendation/{id}",pr.GetBandungRecommendationByID).Methods("GET")
 	r.HandleFunc("/world-place-recommendations",pr.GetWorldRecommendation).Methods("GET")
 	r.HandleFunc("/bandung-place-recommendations",pr.GetBandungRecommendations).Methods("GET")
+	r.HandleFunc("/insertExperience",pr.insertPlace).Methods("POST")
 	fmt.Println("Starting Session")
 	http.ListenAndServe(":3001",r)
 }
