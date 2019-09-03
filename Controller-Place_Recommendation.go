@@ -70,7 +70,7 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendation (w http.
 	collection := client.Database("airbnb").Collection("bandung_places_to_stay")
 	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
 	filter := bson.M{
-		"_id": id,
+		"id": id,
 	}
 	cursor, err := collection.Find(ctx, filter)
 	if err != nil {
