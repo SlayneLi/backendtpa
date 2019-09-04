@@ -58,8 +58,8 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendations(w http.
 	json.NewEncoder(w).Encode(recommendations)
 }
 
-func (placeRecommendation PlaceRecommendation) GetBandungRecommendationByID (w http.ResponseWriter, r *http.Request){
-	w.Header().Add("content-type","application-json")
+func (placeRecommendation PlaceRecommendation) GetBandungRecommendationByID(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("content-type", "application-json")
 	params := mux.Vars(r)
 	id, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {
@@ -75,9 +75,9 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendationByID (w h
 		"_id": id,
 	}
 
-	err = collection.FindOne(ctx,filter).Decode(&recommendation)
+	err = collection.FindOne(ctx, filter).Decode(&recommendation)
 	if err != nil {
-		fmt.Fprintf(w,"Collection / Document Not Found")
+		fmt.Fprintf(w, "Collection / Document Not Found")
 		log.Fatal(err)
 		return
 	}
@@ -88,21 +88,19 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendationByID (w h
 	}
 	json.NewEncoder(w).Encode(recommendation)
 }
-<<<<<<< HEAD
-=======
 
-func (placeRecommendation PlaceRecommendation) insertPlace(w http.ResponseWriter, r *http.Request){
-	w.Header().Add("content-type","application-json")
+func (placeRecommendation PlaceRecommendation) insertPlace(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("content-type", "application-json")
 	collection := client.Database("airbnb").Collection("places_to_stay")
-	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
 	var recommendation PlaceRecommendation
-	json.NewDecoder(r.Body).Decode(&recommendation)	//ngambil dari body terus masuk ke variable penampung
-	res,err := collection.InsertOne(ctx,recommendation)
-	if err != nil{
-		fmt.Fprintf(w,"%+v",err.Error())
+	json.NewDecoder(r.Body).Decode(&recommendation) //ngambil dari body terus masuk ke variable penampung
+	recommendation.ID = primitive.NewObjectID()
+	res, err := collection.InsertOne(ctx, recommendation)
+	if err != nil {
+		fmt.Fprintf(w, "%+v", err.Error())
 		return
 	}
 	json.NewEncoder(w).Encode(res)
 }
->>>>>>> ab9214eea59595c3262f4610f3bb499bae96911c
