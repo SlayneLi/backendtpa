@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
 	"time"
@@ -32,4 +33,21 @@ func (place Place) getPlaces(response http.ResponseWriter, request *http.Request
 		return
 	}
 	json.NewEncoder(response).Encode(places)
+}
+
+func (place Place) insertPlace(response http.ResponseWriter, request *http.Request){
+	response.Header().Add("content-type", "application-json")
+	var oplace Place
+	collection := client.Database("airbnb").Collection("places")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	json.NewDecoder(request.Body).Decode(&oplace)
+	json.NewEncoder(response).Encode(oplace)
+	oplace.ID = primitive.NewObjectID()
+	res,err := collection.InsertOne(ctx,oplace)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	json.NewEncoder(response).Encode(res)
 }

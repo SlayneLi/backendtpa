@@ -66,7 +66,6 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendationByID(w ht
 		fmt.Fprintln(w, "something crashed")
 		fmt.Fprintf(w, "%+v", params)
 		fmt.Fprintf(w, "%+v", err.Error())
-		return
 	}
 	var recommendation PlaceRecommendation
 	collection := client.Database("airbnb").Collection("bandung_places_to_stay")
@@ -79,12 +78,10 @@ func (placeRecommendation PlaceRecommendation) GetBandungRecommendationByID(w ht
 	if err != nil {
 		fmt.Fprintf(w, "Collection / Document Not Found")
 		log.Fatal(err)
-		return
 	}
 
 	if err != nil {
 		log.Fatal(err)
-		return
 	}
 	json.NewEncoder(w).Encode(recommendation)
 }

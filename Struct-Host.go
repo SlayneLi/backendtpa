@@ -10,5 +10,5 @@ type Host struct {
 	TotalReview  int32              `json:"total_review" bson:"total_review"`
 	ResponseRate int32              `json:"response_rate" bson:"response_rate"`
 	ResponseTime string             `json:"response_time" bson:"response_time"`
-	Language     string             `json:"language" bson:"language"`
+	Language     []string             `json:"language" bson:"language"`
 }

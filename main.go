@@ -19,9 +19,10 @@ func startSession() {
 	r := mux.NewRouter()
 	p := Place{}
 	//pr := PlaceRecommendation{}
-	//r.HandleFunc("/bandung-place-recommendation/{id}", pr.GetBandungRecommendationByID).Methods("GET")
+	//r.HandleFunc("/bandung-place-recommendation/{id}", pr.GetBandungRecommenrdationByID).Methods("GET")
 	//r.HandleFunc("/world-place-recommendations", pr.GetWorldRecommendation).Methods("GET")
 	r.HandleFunc("/get-places", p.getPlaces).Methods("GET")
+	r.HandleFunc("/insert-place",p.insertPlace).Methods("POST")
 	fmt.Println("Starting MongoDB Session")
 	http.ListenAndServe(":3001", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}),
