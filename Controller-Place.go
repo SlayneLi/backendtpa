@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
@@ -33,6 +34,29 @@ func (place Place) getPlaces(response http.ResponseWriter, request *http.Request
 		return
 	}
 	json.NewEncoder(response).Encode(places)
+}
+
+func (place Place) getPlace(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	params := mux.Vars(request)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	if err != nil {
+		fmt.Fprintf(response, "%+v", params)
+	}
+	var oplace Place
+	collection := client.Database("airbnb").Collection("places")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	filter := bson.M{
+		"_id": id,
+	}
+
+	err = collection.FindOne(ctx, filter).Decode(&oplace)
+	if err != nil {
+		fmt.Fprintf(response, "Collection / Document Not Found")
+		log.Fatal(err)
+	}
+
+	json.NewEncoder(response).Encode(oplace)
 }
 
 func (place Place) insertPlace(response http.ResponseWriter, request *http.Request) {

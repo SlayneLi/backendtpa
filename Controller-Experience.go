@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
@@ -34,6 +35,29 @@ func (experience Experience) getExperiences(response http.ResponseWriter, reques
 		return
 	}
 	json.NewEncoder(response).Encode(experiences)
+}
+
+func (experience Experience) getExperience(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	params := mux.Vars(request)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	if err != nil {
+		fmt.Fprintf(response, "%+v", params)
+	}
+	var exp Experience
+	collection := client.Database("airbnb").Collection("experiences")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	filter := bson.M{
+		"_id": id,
+	}
+
+	err = collection.FindOne(ctx, filter).Decode(&exp)
+	if err != nil {
+		fmt.Fprintf(response, "Collection / Document Not Found")
+		log.Fatal(err)
+	}
+
+	json.NewEncoder(response).Encode(exp)
 }
 
 func (experience Experience) insertExperience(response http.ResponseWriter, request *http.Request) {
