@@ -6,7 +6,7 @@ type Place struct {
 	ID            primitive.ObjectID `json:"id" bson:"_id"`
 	Pictures      []string           `json:"pictures" bson:"pictures"`
 	PlaceType     string             `json:"place_type" bson:"place_type"`
-	PlaceLoc	  string			 `json:"place_loc" bson:"place_loc"`
+	PlaceLoc      string             `json:"place_loc" bson:"place_loc"`
 	PlaceName     string             `json:"place_name" bson:"place_name"`
 	MaxGuest      int32              `json:"max_guest" bson:"max_guest"`
 	BedRoomCount  int32              `json:"bed_room_count" bson:"bed_room_count"`

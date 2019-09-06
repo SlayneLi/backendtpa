@@ -35,15 +35,15 @@ func (place Place) getPlaces(response http.ResponseWriter, request *http.Request
 	json.NewEncoder(response).Encode(places)
 }
 
-func (place Place) insertPlace(response http.ResponseWriter, request *http.Request){
+func (place Place) insertPlace(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
 	var oplace Place
 	collection := client.Database("airbnb").Collection("places")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	json.NewDecoder(request.Body).Decode(&oplace)
-	json.NewEncoder(response).Encode(oplace)
+	//json.NewEncoder(response).Encode(oplace)	for debugging purpose
 	oplace.ID = primitive.NewObjectID()
-	res,err := collection.InsertOne(ctx,oplace)
+	res, err := collection.InsertOne(ctx, oplace)
 	if err != nil {
 		log.Fatal(err)
 		return
