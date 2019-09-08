@@ -20,4 +20,5 @@ type Place struct {
 	Reviews       []Review           `json:"reviews" bson:"reviews"`
 	Longitude     int32              `json:"longitude" bson:"longitude"`
 	Latitude      int32              `json:"latitude" bson:"latitude"`
+	Country		  string			 `json:"country" bson:"country"`
 }

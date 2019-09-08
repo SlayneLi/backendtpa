@@ -75,3 +75,7 @@ func (place Place) insertPlace(response http.ResponseWriter, request *http.Reque
 
 	json.NewEncoder(response).Encode(res)
 }
+
+func (place Place) insertPlaceReview(response http.ResponseWriter, request *http.Request) {
+
+}

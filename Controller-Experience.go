@@ -76,3 +76,34 @@ func (experience Experience) insertExperience(response http.ResponseWriter, requ
 
 	json.NewEncoder(response).Encode(res)
 }
+
+func (experience Experience) insertExperienceReview(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	params := mux.Vars(request)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	collection := client.Database("airbnb").Collection("experiences")
+
+	var review Review
+	filter := bson.M{
+		"_id": id,
+	}
+	update := bson.M{
+		"$addToSet": bson.M{
+			"reviews": bson.M{
+				"_id":            primitive.NewObjectID(),
+				"people_picture": review.PeoplePicture,
+				"people_name":    review.PeopleName,
+				"posted_time":    review.PostedTime,
+				"review_content": review.ReviewContent,
+			},
+		},
+	}
+
+	result, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	json.NewEncoder(response).Encode(result)
+}

@@ -18,5 +18,6 @@ type Experience struct {
 	ExperienceDescription string             `json:"experience_description" bson:"experience_description"`
 	ExperienceRundown     string             `json:"experience_rundown" bson:"experience_rundown"`
 	ExperienceWhatToBring []string           `json:"experience_what_to_bring" bson:"experience_what_to_bring"`
-	Reviews 			  []Review			 `json:"reviews" bson:"reviews"`
+	Reviews               []Review           `json:"reviews" bson:"reviews"`
+	Country				  string			 `json:"country" bson:"country"`
 }
