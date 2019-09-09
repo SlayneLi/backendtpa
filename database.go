@@ -12,7 +12,7 @@ type DbHandler struct {
 }
 
 func (db *DbHandler) connect() *sql.DB {
-	con, err := sql.Open("mysql", "root:root@tcp(kentang.online:3306)/airbnb")
+	con, err := sql.Open("mysql", "root:root@tcp(kentang.online:3001)/airbnb")
 	if err != nil {
 		log.Panic(err.Error())
 	}
