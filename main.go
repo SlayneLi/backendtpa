@@ -31,6 +31,7 @@ func startSession() {
 	r.HandleFunc("/insert-experience-review/{id}", e.insertExperienceReview).Methods("POST")
 
 	r.HandleFunc("/get-users",u.getUsers).Methods("GET")
+	r.HandleFunc("/insert-user",u.insertUser).Methods("POST")
 
 	fmt.Println("Starting Session")
 	http.ListenAndServe(":3001", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
