@@ -15,4 +15,5 @@ type User struct {
 	Currency        string             `json:"currency" bson:"currency"`
 	Location        string             `json:"location" bson:"location"`
 	SelfDescription string             `json:"self_description" bson:"self_description"`
+	DisplayPicture  string             `json:"display_picture" bson:"display_picture"`
 }
