@@ -8,10 +8,10 @@ import (
 )
 
 const DBUSERNAME = "root"
-const DBPASSWORD = "tpawebcnly"
-const DBSERVER = "database.binusian.id"
+const DBPASSWORD = ""
+const DBSERVER = "localhost"
 const DBSERVERPORT = "3306"
-const DBNAME = "aiv_bnb"
+const DBNAME = "airbnb"
 
 type DbHandler struct {
 	ConnectionString string
