@@ -24,14 +24,11 @@ func (db *DbHandler) connect() *sql.DB {
 		DBSERVER,
 		DBSERVERPORT,
 		DBNAME,
-		)
-
+	)
 	conn, err := sql.Open("mysql", db.ConnectionString)
-
 	if err != nil {
 		log.Panic(err)
 	}
-
 	return conn
 }
 

@@ -1,57 +1,49 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"log"
 	"net/http"
-	"time"
 )
 
 func (user User) getUsers(response http.ResponseWriter,request *http.Request){
-	response.Header().Add("content-type", "application-json")
+	db := new (DbHandler)
+	query := "SELECT * FROM user"
+	rows, err := db.Query(query)
+
+	if err != nil {
+		fmt.Fprintf(response,"%+v",err.Error())
+		return
+	}
 	var users []User
-	collection := client.Database("airbnb").Collection("users")
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	cursor, err := collection.Find(ctx, bson.M{})
-	if err != nil {
-		fmt.Fprintf(response, "No Collection/Document Found")
-		log.Fatal(err)
-		return
-	}
-	defer cursor.Close(ctx)
-	for cursor.Next(ctx) {
+	for rows.Next(){
 		var nuser User
-		cursor.Decode(&nuser)
-		users = append(users, nuser)
-	}
-	if err != nil {
-		fmt.Fprintf(response, "Fetching Data Failed")
-		log.Fatal(err)
-		return
+		rows.Scan(&nuser.ID,&nuser.FirstName,&nuser.LastName,&nuser.Gender,&nuser.Password,&nuser.Email,&nuser.PhoneNumber,&nuser.Language,&nuser.Currency,&nuser.Location,&nuser.SelfDescription,&nuser.DisplayPicture)
+		users = append(users,nuser)
 	}
 	json.NewEncoder(response).Encode(users)
 }
 
+func (user User) loginUser(response http.ResponseWriter, request *http.Request){
+	db := new (DbHandler)
 
+	var requestUser User
+	var databaseUser User
 
-func (user User) insertUser(response http.ResponseWriter, request *http.Request){
-	response.Header().Add("content-type", "application-json")
-	var nuser User
-	collection := client.Database("airbnb").Collection("users")
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	json.NewDecoder(request.Body).Decode(&nuser)
-	//json.NewEncoder(response).Encode(exp)	//for debugging purpose
-	nuser.ID = primitive.NewObjectID()
-	res, err := collection.InsertOne(ctx, nuser)
-	if err != nil {
-		log.Fatal(err)
+	json.NewDecoder(request.Body).Decode(&requestUser)
+
+	email := requestUser.Email
+	password := requestUser.Password
+
+	query := fmt.Sprintf("SELECT _id,first_name,last_name,gender,password,email,phone_number,language,currency,location,self_description,display_picture WHERE email='%s' AND password='%s'",email,password)
+	rows, err := db.Query(query)
+
+	if err != nil{
+		fmt.Fprintf(response,"%+v",err.Error())
 		return
 	}
-
-	json.NewEncoder(response).Encode(res)
-
+	if rows.Next() {
+		rows.Scan(&databaseUser.ID,&databaseUser.FirstName,&databaseUser.LastName,&databaseUser.Gender,&databaseUser.Password,&databaseUser.Email,&databaseUser.PhoneNumber,&databaseUser.Language,&databaseUser.Currency,&databaseUser.Location,&databaseUser.SelfDescription,&databaseUser.DisplayPicture)
+		json.NewEncoder(response).Encode(databaseUser)
+	}
 }
