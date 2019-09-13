@@ -21,4 +21,8 @@ type Place struct {
 	Longitude     int32              `json:"longitude" bson:"longitude"`
 	Latitude      int32              `json:"latitude" bson:"latitude"`
 	Country		  string			 `json:"country" bson:"country"`
+	Accuration	  float64			 `json:"accuration" bson:"accuration"`
+	Communication float64			 `json:"communication" bson:"communication"`
+	Location	  float64			 `json:"location" bson:"location"`
+	Clean		  float64			 `json:"clean" bson:"clean"`
 }

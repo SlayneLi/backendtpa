@@ -35,7 +35,7 @@ func (user User) loginUser(response http.ResponseWriter, request *http.Request){
 	email := requestUser.Email
 	password := requestUser.Password
 
-	query := fmt.Sprintf("SELECT _id,first_name,last_name,gender,password,email,phone_number,language,currency,location,self_description,display_picture WHERE email='%s' AND password='%s'",email,password)
+	query := fmt.Sprintf("SELECT * FROM `user` WHERE email='%s' AND password='%s'",email,password)
 	rows, err := db.Query(query)
 
 	if err != nil{
@@ -43,7 +43,7 @@ func (user User) loginUser(response http.ResponseWriter, request *http.Request){
 		return
 	}
 	if rows.Next() {
-		rows.Scan(&databaseUser.ID,&databaseUser.FirstName,&databaseUser.LastName,&databaseUser.Gender,&databaseUser.Password,&databaseUser.Email,&databaseUser.PhoneNumber,&databaseUser.Language,&databaseUser.Currency,&databaseUser.Location,&databaseUser.SelfDescription,&databaseUser.DisplayPicture)
+		rows.Scan(&databaseUser.ID, &databaseUser.FirstName, &databaseUser.LastName, &databaseUser.Gender, &databaseUser.Password, &databaseUser.Email, &databaseUser.PhoneNumber, &databaseUser.Language, &databaseUser.Currency, &databaseUser.Location, &databaseUser.SelfDescription, &databaseUser.DisplayPicture)
 		json.NewEncoder(response).Encode(databaseUser)
 	}
 }

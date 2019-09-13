@@ -1,6 +1,8 @@
 package main
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type Experience struct {
 	ID                    primitive.ObjectID `json:"id" bson:"_id"`
@@ -20,4 +22,6 @@ type Experience struct {
 	ExperienceWhatToBring []string           `json:"experience_what_to_bring" bson:"experience_what_to_bring"`
 	Reviews               []Review           `json:"reviews" bson:"reviews"`
 	Country				  string			 `json:"country" bson:"country"`
+	Location 			  float64			 `json:"location" bson:"location"`
+	Value 				  float64			 `json:"value" bson:"value"`
 }
