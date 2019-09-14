@@ -7,6 +7,7 @@ type Host struct {
 	HostPicture  string             `json:"host_picture" bson:"host_picture"`
 	HostName     string             `json:"host_name" bson:"host_name"`
 	HostDate     string             `json:"host_date" bson:"host_date"`
+	HostLoc		 string				`json:"host_loc" bson:"host_loc"`
 	TotalReview  int32              `json:"total_review" bson:"total_review"`
 	ResponseRate int32              `json:"response_rate" bson:"response_rate"`
 	ResponseTime string             `json:"response_time" bson:"response_time"`
