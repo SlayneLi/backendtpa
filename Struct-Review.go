@@ -8,4 +8,5 @@ type Review struct {
 	PeopleName    string             `json:"people_name" bson:"people_name"`
 	PostedTime    string             `json:"posted_time" bson:"posted_time"`
 	ReviewContent string             `json:"review_content" bson:"review_content"`
+	ReviewRate    float64			 `json:"review_rate" bson:"review_rate"`
 }
