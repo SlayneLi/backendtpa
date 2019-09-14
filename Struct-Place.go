@@ -8,6 +8,7 @@ type Place struct {
 	PlaceType     string             `json:"place_type" bson:"place_type"`
 	PlaceLoc      string             `json:"place_loc" bson:"place_loc"`
 	PlaceName     string             `json:"place_name" bson:"place_name"`
+	PlaceDesc	  string			 `json:"place_desc" bson:"place_desc"`
 	MaxGuest      int32              `json:"max_guest" bson:"max_guest"`
 	BedRoomCount  int32              `json:"bed_room_count" bson:"bed_room_count"`
 	BedCount      int32              `json:"bed_count" bson:"bed_count"`
