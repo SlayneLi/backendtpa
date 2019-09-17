@@ -3,8 +3,8 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	_ "github.com/go-sql-driver/mysql"
+	"log"
 )
 
 const DBUSERNAME = "root"
@@ -36,4 +36,3 @@ func (db *DbHandler) Query(sql string) (*sql.Rows, error) {
 	conn := db.connect()
 	return conn.Query(sql)
 }
-

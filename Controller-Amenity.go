@@ -12,10 +12,10 @@ import (
 	"time"
 )
 
-func (place Place) getPlaces(response http.ResponseWriter, request *http.Request) {
+func (amenity Amenity) getAmenities (response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
-	var places []Place
-	collection := client.Database("airbnb").Collection("places")
+	var amenities []Amenity
+	collection := client.Database("airbnb").Collection("amenities")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	cursor, err := collection.Find(ctx, bson.M{})
 	if err != nil {
@@ -25,49 +25,46 @@ func (place Place) getPlaces(response http.ResponseWriter, request *http.Request
 	}
 	defer cursor.Close(ctx)
 	for cursor.Next(ctx) {
-		var place Place
-		cursor.Decode(&place)
-		places = append(places, place)
+		var namenity Amenity
+		cursor.Decode(&namenity)
+		amenities = append(amenities, namenity)
 	}
 	if err := cursor.Err(); err != nil {
 		log.Fatal(err)
 		return
 	}
-	json.NewEncoder(response).Encode(places)
+	json.NewEncoder(response).Encode(amenities)
 }
 
-func (place Place) getPlace(response http.ResponseWriter, request *http.Request) {
+func (amenity Amenity) getAmenity(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
 	params := mux.Vars(request)
 	id, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {
 		fmt.Fprintf(response, "%+v", params)
 	}
-	var oplace Place
-	collection := client.Database("airbnb").Collection("places")
+	var namenity Amenity
+	collection := client.Database("airbnb").Collection("amenities")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	filter := bson.M{
 		"_id": id,
 	}
-
-	err = collection.FindOne(ctx, filter).Decode(&oplace)
+	err = collection.FindOne(ctx, filter).Decode(&namenity)
 	if err != nil {
 		fmt.Fprintf(response, "Collection / Document Not Found")
 		log.Fatal(err)
 	}
-
-	json.NewEncoder(response).Encode(oplace)
+	json.NewEncoder(response).Encode(namenity)
 }
 
-func (place Place) insertPlace(response http.ResponseWriter, request *http.Request) {
+func (amenity Amenity) insertAmenity (response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
-	var oplace Place
-	collection := client.Database("airbnb").Collection("places")
+	var namenity Amenity
+	collection := client.Database("airbnb").Collection("amenities")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	json.NewDecoder(request.Body).Decode(&oplace)
-	//json.NewEncoder(response).Encode(oplace)	for debugging purpose
-	oplace.ID = primitive.NewObjectID()
-	res, err := collection.InsertOne(ctx, oplace)
+	json.NewDecoder(request.Body).Decode(&namenity)
+	namenity.ID = primitive.NewObjectID()
+	res, err := collection.InsertOne(ctx, namenity)
 	if err != nil {
 		log.Fatal(err)
 		return

@@ -21,7 +21,7 @@ type Experience struct {
 	ExperienceRundown     string             `json:"experience_rundown" bson:"experience_rundown"`
 	ExperienceWhatToBring []string           `json:"experience_what_to_bring" bson:"experience_what_to_bring"`
 	Reviews               []Review           `json:"reviews" bson:"reviews"`
-	Country				  string			 `json:"country" bson:"country"`
-	Location 			  float64			 `json:"location" bson:"location"`
-	Value 				  float64			 `json:"value" bson:"value"`
+	Country               string             `json:"country" bson:"country"`
+	Location              float64            `json:"location" bson:"location"`
+	Value                 float64            `json:"value" bson:"value"`
 }
