@@ -22,6 +22,8 @@ func startSession() {
 	u := User{}
 	h := Host{}
 	a := Amenity{}
+	s := SavePlan{}
+	uh := UserHistory{}
 
 	r.HandleFunc("/get-places", p.getPlaces).Methods("GET")
 	r.HandleFunc("/get-place/{id}", p.getPlace).Methods("GET")
@@ -33,18 +35,26 @@ func startSession() {
 	r.HandleFunc("/insert-experience-review/{id}", e.insertExperienceReview).Methods("POST")
 
 	r.HandleFunc("/get-users", u.getUsers).Methods("GET")
-	r.HandleFunc("/get-user/{id}",u.getUserById).Methods("GET")
+	r.HandleFunc("/get-user/{id}", u.getUserById).Methods("GET")
 	r.HandleFunc("/login-user", u.loginUser).Methods("POST")
-	r.HandleFunc("/register-user",u.registerUser).Methods("POST")
-	r.HandleFunc("/update-user/{id}",u.updateUser).Methods("PATCH")
+	r.HandleFunc("/register-user", u.registerUser).Methods("POST")
+	r.HandleFunc("/update-user/{id}", u.updateUser).Methods("PATCH")
 
-	r.HandleFunc("/get-hosts",h.getHosts).Methods("GET")
-	r.HandleFunc("/get-host/{id}",h.getHost).Methods("GET")
-	r.HandleFunc("/insert-host",h.insertHost).Methods("POST")
+	r.HandleFunc("/get-user-histories", uh.getUserHistories).Methods("GET")
+	r.HandleFunc("/get-user-history/{email}", uh.getUserHistory).Methods("GET")
+	r.HandleFunc("/insert-user-history", uh.insertUserHistory).Methods("POST")
 
-	r.HandleFunc("/get-amenities",a.getAmenities).Methods("GET")
-	r.HandleFunc("/get-amenity/{id}",a.getAmenity).Methods("GET")
-	r.HandleFunc("/insert-amenity",a.insertAmenity).Methods("POST")
+	r.HandleFunc("/get-hosts", h.getHosts).Methods("GET")
+	r.HandleFunc("/get-host/{id}", h.getHost).Methods("GET")
+	r.HandleFunc("/insert-host", h.insertHost).Methods("POST")
+
+	r.HandleFunc("/get-amenities", a.getAmenities).Methods("GET")
+	r.HandleFunc("/get-amenity/{id}", a.getAmenity).Methods("GET")
+	r.HandleFunc("/insert-amenity", a.insertAmenity).Methods("POST")
+
+	r.HandleFunc("/get-save-plans", s.getSavePlans).Methods("GET")
+	r.HandleFunc("/get-save-plan/{id}", s.getSavePlan).Methods("GET")
+	r.HandleFunc("/insert-save-plan", s.insertSavePlan).Methods("POST")
 
 	fmt.Println("Starting Session")
 	http.ListenAndServe(":3001", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),

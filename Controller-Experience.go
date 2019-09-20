@@ -66,7 +66,6 @@ func (experience Experience) insertExperience(response http.ResponseWriter, requ
 	collection := client.Database("airbnb").Collection("experiences")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	json.NewDecoder(request.Body).Decode(&exp)
-	//json.NewEncoder(response).Encode(exp)	//for debugging purpose
 	exp.ID = primitive.NewObjectID()
 	res, err := collection.InsertOne(ctx, exp)
 	if err != nil {

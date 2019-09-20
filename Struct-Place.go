@@ -16,7 +16,7 @@ type Place struct {
 	AverageRating float64            `json:"average_rating" bson:"average_rating"`
 	TotalRating   int32              `json:"total_rating" bson:"total_rating"`
 	AveragePrice  int32              `json:"average_price" bson:"average_price"`
-	HostInfo      Host             	 `json:"host_info" bson:"host_info"`
+	HostInfo      Host               `json:"host_info" bson:"host_info"`
 	Amenities     []Amenity          `json:"amenities" bson:"amenities"`
 	Reviews       []Review           `json:"reviews" bson:"reviews"`
 	Longitude     int32              `json:"longitude" bson:"longitude"`

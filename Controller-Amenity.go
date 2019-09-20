@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func (amenity Amenity) getAmenities (response http.ResponseWriter, request *http.Request) {
+func (amenity Amenity) getAmenities(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
 	var amenities []Amenity
 	collection := client.Database("airbnb").Collection("amenities")
@@ -57,7 +57,7 @@ func (amenity Amenity) getAmenity(response http.ResponseWriter, request *http.Re
 	json.NewEncoder(response).Encode(namenity)
 }
 
-func (amenity Amenity) insertAmenity (response http.ResponseWriter, request *http.Request) {
+func (amenity Amenity) insertAmenity(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
 	var namenity Amenity
 	collection := client.Database("airbnb").Collection("amenities")
