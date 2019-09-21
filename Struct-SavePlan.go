@@ -10,6 +10,8 @@ type SavePlan struct {
 	PicUrl       string             `json:"pic_url" bson:"pic_url"`
 	Privacy      string             `json:"privacy" bson:"privacy"`
 	Email        string             `json:"email" bson:"email"`
-	TotalGuest   int32              `json:"total_guest" bson:"total_guest"`
-	PlanDates    string             `json:"plan_dates" bson:"plan_dates"`
+	GuestCount   int32              `json:"guest_count" bson:"guest_count"`
+	StartDate    string             `json:"start_date" bson:"start_date"`
+	EndDate      string             `json:"end_date" bson:"end_date"`
 }
+	
