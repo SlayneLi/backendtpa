@@ -59,6 +59,8 @@ func startSession() {
 	r.HandleFunc("/get-save-plans", s.getSavePlans).Methods("GET")
 	r.HandleFunc("/get-save-plan/{id}", s.getSavePlan).Methods("GET")
 	r.HandleFunc("/insert-save-plan", s.insertSavePlan).Methods("POST")
+	r.HandleFunc("/append-save-plan-experience/{id}/{eid}",s.appendSavePlanExperience).Methods("POST")
+	r.HandleFunc("/append-save-plan-place/{id}/{pid}",s.appendSavePlanPlace).Methods("POST")
 
 	r.HandleFunc("/get-chats", c.getChats).Methods("GET")
 	r.HandleFunc("/insert-chat", c.insertChat).Methods("POST")

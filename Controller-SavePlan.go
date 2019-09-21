@@ -74,3 +74,53 @@ func (saveplan SavePlan) insertSavePlan(response http.ResponseWriter, request *h
 
 	json.NewEncoder(response).Encode(res)
 }
+
+func (saveplan SavePlan) appendSavePlanPlace(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	params := mux.Vars(request)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	pid := params["pid"]
+	collection := client.Database("airbnb").Collection("saved_plans")
+
+	filter := bson.M{
+		"_id": id,
+	}
+	update := bson.M{
+		"$addToSet": bson.M{
+			"experience_id": pid,
+		},
+	}
+
+	result, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	json.NewEncoder(response).Encode(result)
+}
+
+func (saveplan SavePlan) appendSavePlanExperience(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	params := mux.Vars(request)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	eid := params["eid"]
+	collection := client.Database("airbnb").Collection("saved_plans")
+
+	filter := bson.M{
+		"_id": id,
+	}
+	update := bson.M{
+		"$addToSet": bson.M{
+			"experience_id": eid,
+		},
+	}
+
+	result, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	json.NewEncoder(response).Encode(result)
+}
