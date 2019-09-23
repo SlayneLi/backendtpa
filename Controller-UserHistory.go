@@ -37,27 +37,38 @@ func (userhistory UserHistory) getUserHistories(response http.ResponseWriter, re
 	json.NewEncoder(response).Encode(userhistories)
 }
 
-func (userhistory UserHistory) getUserHistory(response http.ResponseWriter, request *http.Request) {
+func (userhistory UserHistory) getUserHistoryByEmail(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
 	params := mux.Vars(request)
 	email, err := primitive.ObjectIDFromHex(params["email"])
 	if err != nil {
 		fmt.Fprintf(response, "%+v", params)
 	}
-	var nuh UserHistory
+	var userhistories []UserHistory
 	collection := client.Database("airbnb").Collection("user-histories")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	filter := bson.M{
 		"email": email,
 	}
 
-	err = collection.FindOne(ctx, filter).Decode(&nuh)
+	cursor, err := collection.Find(ctx, filter)
 	if err != nil {
-		fmt.Fprintf(response, "Collection / Document Not Found")
+		fmt.Fprintf(response, "No Collection/Document Found")
 		log.Fatal(err)
+		return
 	}
-
-	json.NewEncoder(response).Encode(nuh)
+	defer cursor.Close(ctx)
+	for cursor.Next(ctx) {
+		var nuh UserHistory
+		cursor.Decode(&nuh)
+		userhistories = append(userhistories, nuh)
+	}
+	if err != nil {
+		fmt.Fprintf(response, "Fetching Data Failed")
+		log.Fatal(err)
+		return
+	}
+	json.NewEncoder(response).Encode(userhistories)
 }
 
 func (userhistory UserHistory) insertUserHistory(response http.ResponseWriter, request *http.Request) {

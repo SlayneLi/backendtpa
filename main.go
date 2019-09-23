@@ -25,9 +25,7 @@ func startSession() {
 	s := SavePlan{}
 	c := ChatContainer{}
 	uh := UserHistory{}
-	bp := BookingPlace{}
-	be := BookingExperience{}
-	bh := BookingHistory{}
+	b := Booking{}
 
 	r.HandleFunc("/get-places", p.getPlaces).Methods("GET")
 	r.HandleFunc("/get-place/{id}", p.getPlace).Methods("GET")
@@ -39,13 +37,13 @@ func startSession() {
 	r.HandleFunc("/insert-experience-review/{id}", e.insertExperienceReview).Methods("POST")
 
 	r.HandleFunc("/get-users", u.getUsers).Methods("GET")
-	r.HandleFunc("/get-user/{id}", u.getUserById).Methods("GET")
+	r.HandleFunc("/get-user/{email}", u.getUserById).Methods("GET")
 	r.HandleFunc("/login-user", u.loginUser).Methods("POST")
 	r.HandleFunc("/register-user", u.registerUser).Methods("POST")
 	r.HandleFunc("/update-user/{id}", u.updateUser).Methods("PATCH")
 
 	r.HandleFunc("/get-user-histories", uh.getUserHistories).Methods("GET")
-	r.HandleFunc("/get-user-history/{email}", uh.getUserHistory).Methods("GET")
+	r.HandleFunc("/get-user-history/{email}", uh.getUserHistoryByEmail).Methods("GET")
 	r.HandleFunc("/insert-user-history", uh.insertUserHistory).Methods("POST")
 
 	r.HandleFunc("/get-hosts", h.getHosts).Methods("GET")
@@ -59,25 +57,16 @@ func startSession() {
 	r.HandleFunc("/get-save-plans", s.getSavePlans).Methods("GET")
 	r.HandleFunc("/get-save-plan/{id}", s.getSavePlan).Methods("GET")
 	r.HandleFunc("/insert-save-plan", s.insertSavePlan).Methods("POST")
-	r.HandleFunc("/append-save-plan-experience/{id}/{eid}",s.appendSavePlanExperience).Methods("POST")
-	r.HandleFunc("/append-save-plan-place/{id}/{pid}",s.appendSavePlanPlace).Methods("POST")
+	r.HandleFunc("/append-save-plan-experience/{id}/{eid}", s.appendSavePlanExperience).Methods("POST")
+	r.HandleFunc("/append-save-plan-place/{id}/{pid}", s.appendSavePlanPlace).Methods("POST")
 
 	r.HandleFunc("/get-chats", c.getChats).Methods("GET")
 	r.HandleFunc("/insert-chat", c.insertChat).Methods("POST")
 
-	r.HandleFunc("/get-booking-places", bp.getBookPlaces).Methods("GET")
-	r.HandleFunc("/get-booking-places/{email}", bp.getBookPlaceByEmail).Methods("GET")
-	r.HandleFunc("/get-booking-place-detail/{email}/{name}", bp.getBookPlaceDetail).Methods("GET")
-	r.HandleFunc("/insert-booking-place", bp.insertBookPlace).Methods("POST")
-
-	r.HandleFunc("/get-booking-experiences", be.getBookExperiences).Methods("GET")
-	r.HandleFunc("/get-booking-experience/{email}", be.getBookExperienceByEmail).Methods("GET")
-	r.HandleFunc("/get-booking-experience-detail/{email}/{name}", be.getBookExperienceDetail).Methods("GET")
-	r.HandleFunc("/insert-booking-experience", be.insertBookExperience).Methods("POST")
-
-	r.HandleFunc("/get-booking-histories", bh.getBookHistories).Methods("GET")
-	r.HandleFunc("/get-booking-history/{email}", bh.getBookHistoriesByEmail).Methods("GET")
-	r.HandleFunc("/insert-booking-history", bh.insertBookHistory).Methods("POST")
+	r.HandleFunc("/get-bookings", b.getUserBookings).Methods("GET")
+	r.HandleFunc("/get-book/{email}", b.getUserBookingByEmail).Methods("GET")
+	r.HandleFunc("/get-book/{id}", b.getUserBookingById).Methods("GET")
+	r.HandleFunc("/insert-booking", b.insertBooking).Methods("POST")
 
 	fmt.Println("Starting Session")
 	http.ListenAndServe(":3001", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),

@@ -28,9 +28,9 @@ func (user User) getUsers(response http.ResponseWriter, request *http.Request) {
 func (user User) getUserById(response http.ResponseWriter, request *http.Request) {
 	db := new(DbHandler)
 	params := mux.Vars(request)
-	req_id := params["id"]
+	req_email := params["email"]
 
-	query := fmt.Sprintf("SELECT * FROM `user` WHERE id = '%s'", req_id)
+	query := fmt.Sprintf("SELECT * FROM `user` WHERE email = '%s'", req_email)
 	row, err := db.Query(query)
 
 	if err != nil {
