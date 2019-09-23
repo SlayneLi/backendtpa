@@ -37,7 +37,7 @@ func startSession() {
 	r.HandleFunc("/insert-experience-review/{id}", e.insertExperienceReview).Methods("POST")
 
 	r.HandleFunc("/get-users", u.getUsers).Methods("GET")
-	r.HandleFunc("/get-user/{email}", u.getUserById).Methods("GET")
+	r.HandleFunc("/get-user/{email}", u.getUserByEmail).Methods("GET")
 	r.HandleFunc("/login-user", u.loginUser).Methods("POST")
 	r.HandleFunc("/register-user", u.registerUser).Methods("POST")
 	r.HandleFunc("/update-user/{id}", u.updateUser).Methods("PATCH")
@@ -64,8 +64,9 @@ func startSession() {
 	r.HandleFunc("/insert-chat", c.insertChat).Methods("POST")
 
 	r.HandleFunc("/get-bookings", b.getUserBookings).Methods("GET")
-	r.HandleFunc("/get-book/{email}", b.getUserBookingByEmail).Methods("GET")
+	r.HandleFunc("/get-bookings/{email}", b.getUserBookingByEmail).Methods("GET")
 	r.HandleFunc("/get-book/{id}", b.getUserBookingById).Methods("GET")
+	r.HandleFunc("/insert-booking-review/{id}",b.appendBookingReview).Methods("POST")
 	r.HandleFunc("/insert-booking", b.insertBooking).Methods("POST")
 
 	fmt.Println("Starting Session")

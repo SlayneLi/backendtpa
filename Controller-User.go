@@ -25,7 +25,7 @@ func (user User) getUsers(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(users)
 }
 
-func (user User) getUserById(response http.ResponseWriter, request *http.Request) {
+func (user User) getUserByEmail(response http.ResponseWriter, request *http.Request) {
 	db := new(DbHandler)
 	params := mux.Vars(request)
 	req_email := params["email"]
