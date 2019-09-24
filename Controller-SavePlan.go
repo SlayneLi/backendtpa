@@ -88,7 +88,7 @@ func (saveplan SavePlan) appendSavePlanPlace(response http.ResponseWriter, reque
 	}
 	update := bson.M{
 		"$addToSet": bson.M{
-			"experience_id": pid,
+			"place_id": pid,
 		},
 	}
 
@@ -114,6 +114,56 @@ func (saveplan SavePlan) appendSavePlanExperience(response http.ResponseWriter, 
 	update := bson.M{
 		"$addToSet": bson.M{
 			"experience_id": eid,
+		},
+	}
+
+	result, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	json.NewEncoder(response).Encode(result)
+}
+
+func (saveplan SavePlan) removeSavePlanExperience (response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	params := mux.Vars(request)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	eid := params["eid"]
+	collection := client.Database("airbnb").Collection("saved_plans")
+
+	filter := bson.M{
+		"_id": id,
+	}
+	update := bson.M{
+		"$pull" : bson.M{
+			"experience_id" : eid,
+		},
+	}
+
+	result, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	json.NewEncoder(response).Encode(result)
+}
+
+func (saveplan SavePlan) removeSavePlanPlace (response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	params := mux.Vars(request)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	pid := params["pid"]
+	collection := client.Database("airbnb").Collection("saved_plans")
+
+	filter := bson.M{
+		"_id": id,
+	}
+	update := bson.M{
+		"$pull" : bson.M{
+			"place_id" : pid,
 		},
 	}
 

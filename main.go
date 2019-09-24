@@ -40,7 +40,7 @@ func startSession() {
 	r.HandleFunc("/get-user/{email}", u.getUserByEmail).Methods("GET")
 	r.HandleFunc("/login-user", u.loginUser).Methods("POST")
 	r.HandleFunc("/register-user", u.registerUser).Methods("POST")
-	r.HandleFunc("/update-user/{id}", u.updateUser).Methods("PATCH")
+	r.HandleFunc("/update-user/{email}", u.updateUser).Methods("PATCH")
 
 	r.HandleFunc("/get-user-histories", uh.getUserHistories).Methods("GET")
 	r.HandleFunc("/get-user-history/{email}", uh.getUserHistoryByEmail).Methods("GET")
@@ -59,6 +59,8 @@ func startSession() {
 	r.HandleFunc("/insert-save-plan", s.insertSavePlan).Methods("POST")
 	r.HandleFunc("/append-save-plan-experience/{id}/{eid}", s.appendSavePlanExperience).Methods("POST")
 	r.HandleFunc("/append-save-plan-place/{id}/{pid}", s.appendSavePlanPlace).Methods("POST")
+	r.HandleFunc("/remove-save-plan-experience/{id}/{eid}",s.removeSavePlanExperience).Methods("POST")
+	r.HandleFunc("/remove-save-plan-place/{id}/{pid}",s.removeSavePlanPlace).Methods("POST")
 
 	r.HandleFunc("/get-chats", c.getChats).Methods("GET")
 	r.HandleFunc("/insert-chat", c.insertChat).Methods("POST")

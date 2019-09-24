@@ -86,12 +86,12 @@ func (user User) updateUser(response http.ResponseWriter, request *http.Request)
 	db := new(DbHandler)
 
 	params := mux.Vars(request)
-	req_id := params["id"]
+	req_email := params["email"]
 	var nuser User
 
 	json.NewDecoder(request.Body).Decode(&nuser)
 
-	query := fmt.Sprintf("UPDATE user SET FirstName = '%s', LastName = '%s' , Email = '%s' , Password = '%s' , Gender = '%s' , PhoneNumber = '%s' , Language = '%s' , Currency = '%s' , Location = '%s' , SelfDescription = '%s' , DisplayPicture = '%s' WHERE ID = '%s' ", nuser.FirstName, nuser.LastName, nuser.Email, nuser.Password, nuser.Gender, nuser.PhoneNumber, nuser.Language, nuser.Currency, nuser.Location, nuser.SelfDescription, nuser.DisplayPicture, req_id)
+	query := fmt.Sprintf("UPDATE user SET FirstName = '%s', LastName = '%s' , Password = '%s' , Gender = '%s' , PhoneNumber = '%s' , Language = '%s' , Currency = '%s' , Location = '%s' , SelfDescription = '%s' , DisplayPicture = '%s' WHERE Email = '%s' ", nuser.FirstName, nuser.LastName, nuser.Email, nuser.Password, nuser.Gender, nuser.PhoneNumber, nuser.Language, nuser.Currency, nuser.Location, nuser.SelfDescription, nuser.DisplayPicture, req_email)
 	_, err := db.Query(query)
 
 	if err != nil {
