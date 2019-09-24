@@ -26,6 +26,8 @@ func startSession() {
 	c := ChatContainer{}
 	uh := UserHistory{}
 	b := Booking{}
+	ur := UserReview{}
+	pr := PeopleReview{}
 
 	r.HandleFunc("/get-places", p.getPlaces).Methods("GET")
 	r.HandleFunc("/get-place/{id}", p.getPlace).Methods("GET")
@@ -40,7 +42,8 @@ func startSession() {
 	r.HandleFunc("/get-user/{email}", u.getUserByEmail).Methods("GET")
 	r.HandleFunc("/login-user", u.loginUser).Methods("POST")
 	r.HandleFunc("/register-user", u.registerUser).Methods("POST")
-	r.HandleFunc("/update-user/{email}", u.updateUser).Methods("PATCH")
+	r.HandleFunc("/update-user-profile/{email}", u.updateUserProfile).Methods("POST")
+	r.HandleFunc("/update-user-account/{email}", u.updateUserAccount).Methods("POST")
 
 	r.HandleFunc("/get-user-histories", uh.getUserHistories).Methods("GET")
 	r.HandleFunc("/get-user-history/{email}", uh.getUserHistoryByEmail).Methods("GET")
@@ -59,8 +62,8 @@ func startSession() {
 	r.HandleFunc("/insert-save-plan", s.insertSavePlan).Methods("POST")
 	r.HandleFunc("/append-save-plan-experience/{id}/{eid}", s.appendSavePlanExperience).Methods("POST")
 	r.HandleFunc("/append-save-plan-place/{id}/{pid}", s.appendSavePlanPlace).Methods("POST")
-	r.HandleFunc("/remove-save-plan-experience/{id}/{eid}",s.removeSavePlanExperience).Methods("POST")
-	r.HandleFunc("/remove-save-plan-place/{id}/{pid}",s.removeSavePlanPlace).Methods("POST")
+	r.HandleFunc("/remove-save-plan-experience/{id}/{eid}", s.removeSavePlanExperience).Methods("POST")
+	r.HandleFunc("/remove-save-plan-place/{id}/{pid}", s.removeSavePlanPlace).Methods("POST")
 
 	r.HandleFunc("/get-chats", c.getChats).Methods("GET")
 	r.HandleFunc("/insert-chat", c.insertChat).Methods("POST")
@@ -68,8 +71,17 @@ func startSession() {
 	r.HandleFunc("/get-bookings", b.getUserBookings).Methods("GET")
 	r.HandleFunc("/get-bookings/{email}", b.getUserBookingByEmail).Methods("GET")
 	r.HandleFunc("/get-book/{id}", b.getUserBookingById).Methods("GET")
-	r.HandleFunc("/insert-booking-review/{id}",b.appendBookingReview).Methods("POST")
+	r.HandleFunc("/insert-booking-review/{id}", b.appendBookingReview).Methods("POST")
+	r.HandleFunc("/insert-booking-rate/{id}/{rate}", b.appendBookingRate).Methods("POST")
 	r.HandleFunc("/insert-booking", b.insertBooking).Methods("POST")
+
+	r.HandleFunc("/get-user-reviews", ur.getUserReviews).Methods("GET")
+	r.HandleFunc("/get-user-reviews/{email}", ur.getUserReviewByEmail).Methods("GET")
+	r.HandleFunc("/insert-user-review", ur.insertUserReview).Methods("POST")
+
+	r.HandleFunc("/get-people-reviews", pr.getPeopleReviews).Methods("GET")
+	r.HandleFunc("/get-people-reviews/{email}", pr.getPeopleReviewByEmail).Methods("GET")
+	r.HandleFunc("/insert-people-review", pr.insertPeopleReview).Methods("POST")
 
 	fmt.Println("Starting Session")
 	http.ListenAndServe(":3001", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),

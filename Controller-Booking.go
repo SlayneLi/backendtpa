@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -40,7 +41,7 @@ func (booking Booking) getUserBookings(response http.ResponseWriter, request *ht
 func (booking Booking) getUserBookingByEmail(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
 	params := mux.Vars(request)
-	email:= params["email"]
+	email := params["email"]
 
 	var bookings []Booking
 	collection := client.Database("airbnb").Collection("bookings")
@@ -125,6 +126,33 @@ func (booking Booking) appendBookingReview(response http.ResponseWriter, request
 	update := bson.M{
 		"$addToSet": bson.M{
 			"review": review,
+		},
+	}
+
+	result, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	json.NewEncoder(response).Encode(result)
+}
+
+func (booking Booking) appendBookingRate(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	params := mux.Vars(request)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	str := params["rate"]
+	collection := client.Database("airbnb").Collection("bookings")
+	var res float64
+	res, err = strconv.ParseFloat(str, 64)
+	fmt.Fprintf(response, "%+v", res)
+	filter := bson.M{
+		"_id": id,
+	}
+	update := bson.M{
+		"$set": bson.M{
+			"rating": res,
 		},
 	}
 

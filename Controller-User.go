@@ -82,7 +82,7 @@ func (user User) registerUser(response http.ResponseWriter, request *http.Reques
 	}
 }
 
-func (user User) updateUser(response http.ResponseWriter, request *http.Request) {
+func (user User) updateUserProfile(response http.ResponseWriter, request *http.Request) {
 	db := new(DbHandler)
 
 	params := mux.Vars(request)
@@ -91,7 +91,25 @@ func (user User) updateUser(response http.ResponseWriter, request *http.Request)
 
 	json.NewDecoder(request.Body).Decode(&nuser)
 
-	query := fmt.Sprintf("UPDATE user SET FirstName = '%s', LastName = '%s' , Password = '%s' , Gender = '%s' , PhoneNumber = '%s' , Language = '%s' , Currency = '%s' , Location = '%s' , SelfDescription = '%s' , DisplayPicture = '%s' WHERE Email = '%s' ", nuser.FirstName, nuser.LastName, nuser.Email, nuser.Password, nuser.Gender, nuser.PhoneNumber, nuser.Language, nuser.Currency, nuser.Location, nuser.SelfDescription, nuser.DisplayPicture, req_email)
+	query := fmt.Sprintf("UPDATE user SET FirstName = '%s', LastName = '%s' , Gender = '%s' , Language = '%s' , Currency = '%s' , SelfDescription = '%s' , DisplayPicture = '%s' WHERE Email = '%s' ", nuser.FirstName, nuser.LastName, nuser.Gender, nuser.Language, nuser.Currency, nuser.SelfDescription, nuser.DisplayPicture, req_email)
+	_, err := db.Query(query)
+
+	if err != nil {
+		fmt.Fprintf(response, "%+v", err.Error())
+		return
+	}
+}
+
+func (user User) updateUserAccount(response http.ResponseWriter, request *http.Request) {
+	db := new(DbHandler)
+
+	params := mux.Vars(request)
+	req_email := params["email"]
+	var nuser User
+
+	json.NewDecoder(request.Body).Decode(&nuser)
+
+	query := fmt.Sprintf("UPDATE user SET Password = '%s' WHERE Email = '%s' ", nuser.Password, req_email)
 	_, err := db.Query(query)
 
 	if err != nil {

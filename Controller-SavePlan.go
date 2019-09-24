@@ -125,7 +125,7 @@ func (saveplan SavePlan) appendSavePlanExperience(response http.ResponseWriter, 
 	json.NewEncoder(response).Encode(result)
 }
 
-func (saveplan SavePlan) removeSavePlanExperience (response http.ResponseWriter, request *http.Request) {
+func (saveplan SavePlan) removeSavePlanExperience(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	params := mux.Vars(request)
@@ -137,8 +137,8 @@ func (saveplan SavePlan) removeSavePlanExperience (response http.ResponseWriter,
 		"_id": id,
 	}
 	update := bson.M{
-		"$pull" : bson.M{
-			"experience_id" : eid,
+		"$pull": bson.M{
+			"experience_id": eid,
 		},
 	}
 
@@ -150,7 +150,7 @@ func (saveplan SavePlan) removeSavePlanExperience (response http.ResponseWriter,
 	json.NewEncoder(response).Encode(result)
 }
 
-func (saveplan SavePlan) removeSavePlanPlace (response http.ResponseWriter, request *http.Request) {
+func (saveplan SavePlan) removeSavePlanPlace(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	params := mux.Vars(request)
@@ -162,8 +162,8 @@ func (saveplan SavePlan) removeSavePlanPlace (response http.ResponseWriter, requ
 		"_id": id,
 	}
 	update := bson.M{
-		"$pull" : bson.M{
-			"place_id" : pid,
+		"$pull": bson.M{
+			"place_id": pid,
 		},
 	}
 

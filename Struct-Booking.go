@@ -13,4 +13,5 @@ type Booking struct {
 	BookingType       string             `json:"booking_type" bson:"booking_type"`
 	TransactionStatus string             `json:"transaction_status" bson:"transaction_status"`
 	Review            []Review           `json:"review" bson:"review"`
+	Rating            float64            `json:"rating" bson:"rating"`
 }
