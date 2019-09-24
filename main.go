@@ -51,6 +51,7 @@ func startSession() {
 
 	r.HandleFunc("/get-hosts", h.getHosts).Methods("GET")
 	r.HandleFunc("/get-host/{id}", h.getHost).Methods("GET")
+	r.HandleFunc("/get-host-name/{name}",h.getHostByName).Methods("GET")
 	r.HandleFunc("/insert-host", h.insertHost).Methods("POST")
 
 	r.HandleFunc("/get-amenities", a.getAmenities).Methods("GET")

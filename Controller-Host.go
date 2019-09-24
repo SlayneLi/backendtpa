@@ -59,6 +59,27 @@ func (host Host) getHost(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(nhost)
 }
 
+func (host Host) getHostByName(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	params := mux.Vars(request)
+	name := params["name"]
+
+	var nhost Host
+	collection := client.Database("airbnb").Collection("hosts")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	filter := bson.M{
+		"host_name": name,
+	}
+
+	err := collection.FindOne(ctx, filter).Decode(&nhost)
+	if err != nil {
+		fmt.Fprintf(response, "Collection / Document Not Found")
+		log.Fatal(err)
+	}
+
+	json.NewEncoder(response).Encode(nhost)
+}
+
 func (host Host) insertHost(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
 	var nhost Host
