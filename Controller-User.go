@@ -91,7 +91,7 @@ func (user User) updateUserProfile(response http.ResponseWriter, request *http.R
 
 	json.NewDecoder(request.Body).Decode(&nuser)
 
-	query := fmt.Sprintf("UPDATE user SET FirstName = '%s', LastName = '%s' , Gender = '%s' , Language = '%s' , Currency = '%s' , SelfDescription = '%s' , DisplayPicture = '%s' WHERE Email = '%s' ", nuser.FirstName, nuser.LastName, nuser.Gender, nuser.Language, nuser.Currency, nuser.SelfDescription, nuser.DisplayPicture, req_email)
+	query := fmt.Sprintf("UPDATE `user` SET first_name = '%s', last_name = '%s' , gender = '%s' , language = '%s' , currency = '%s' , self_description = '%s' , display_picture = '%s' WHERE email = '%s' ", nuser.FirstName, nuser.LastName, nuser.Gender, nuser.Language, nuser.Currency, nuser.SelfDescription, nuser.DisplayPicture, req_email)
 	_, err := db.Query(query)
 
 	if err != nil {
@@ -109,7 +109,7 @@ func (user User) updateUserAccount(response http.ResponseWriter, request *http.R
 
 	json.NewDecoder(request.Body).Decode(&nuser)
 
-	query := fmt.Sprintf("UPDATE user SET Password = '%s' WHERE Email = '%s' ", nuser.Password, req_email)
+	query := fmt.Sprintf("UPDATE `user` SET password = '%s' WHERE email = '%s' ", nuser.Password, req_email)
 	_, err := db.Query(query)
 
 	if err != nil {

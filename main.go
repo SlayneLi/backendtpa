@@ -23,7 +23,7 @@ func startSession() {
 	h := Host{}
 	a := Amenity{}
 	s := SavePlan{}
-	c := ChatContainer{}
+	c := Chat{}
 	uh := UserHistory{}
 	b := Booking{}
 	ur := UserReview{}
@@ -66,8 +66,8 @@ func startSession() {
 	r.HandleFunc("/remove-save-plan-experience/{id}/{eid}", s.removeSavePlanExperience).Methods("POST")
 	r.HandleFunc("/remove-save-plan-place/{id}/{pid}", s.removeSavePlanPlace).Methods("POST")
 
-	r.HandleFunc("/get-chats", c.getChats).Methods("GET")
-	r.HandleFunc("/insert-chat", c.insertChat).Methods("POST")
+	r.HandleFunc("/get-chats",c.getChats).Methods("GET")
+	r.HandleFunc("/insert-chat",c.insertChat).Methods("POST")
 
 	r.HandleFunc("/get-bookings", b.getUserBookings).Methods("GET")
 	r.HandleFunc("/get-bookings/{email}", b.getUserBookingByEmail).Methods("GET")
@@ -75,8 +75,8 @@ func startSession() {
 	r.HandleFunc("/insert-booking-review/{id}", b.appendBookingReview).Methods("POST")
 	r.HandleFunc("/insert-booking-rate/{id}/{rate}", b.appendBookingRate).Methods("POST")
 	r.HandleFunc("/insert-booking", b.insertBooking).Methods("POST")
-	r.HandleFunc("/update-trans-postponed/{id}",b.updateTransactionPostponed).Methods("POST")
-	r.HandleFunc("/update-trans-payed/{id}",b.updateTransactionPayed).Methods("POST")
+	r.HandleFunc("/update-trans-postponed/{id}", b.updateTransactionPostponed).Methods("POST")
+	r.HandleFunc("/update-trans-payed/{id}", b.updateTransactionPayed).Methods("POST")
 
 	r.HandleFunc("/get-user-reviews", ur.getUserReviews).Methods("GET")
 	r.HandleFunc("/get-user-reviews/{email}", ur.getUserReviewByEmail).Methods("GET")
