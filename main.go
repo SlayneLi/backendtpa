@@ -51,7 +51,7 @@ func startSession() {
 
 	r.HandleFunc("/get-hosts", h.getHosts).Methods("GET")
 	r.HandleFunc("/get-host/{id}", h.getHost).Methods("GET")
-	r.HandleFunc("/get-host-name/{name}",h.getHostByName).Methods("GET")
+	r.HandleFunc("/get-host-name/{name}", h.getHostByName).Methods("GET")
 	r.HandleFunc("/insert-host", h.insertHost).Methods("POST")
 
 	r.HandleFunc("/get-amenities", a.getAmenities).Methods("GET")
@@ -75,6 +75,8 @@ func startSession() {
 	r.HandleFunc("/insert-booking-review/{id}", b.appendBookingReview).Methods("POST")
 	r.HandleFunc("/insert-booking-rate/{id}/{rate}", b.appendBookingRate).Methods("POST")
 	r.HandleFunc("/insert-booking", b.insertBooking).Methods("POST")
+	r.HandleFunc("/update-trans-postponed/{id}",b.updateTransactionPostponed).Methods("POST")
+	r.HandleFunc("/update-trans-payed/{id}",b.updateTransactionPayed).Methods("POST")
 
 	r.HandleFunc("/get-user-reviews", ur.getUserReviews).Methods("GET")
 	r.HandleFunc("/get-user-reviews/{email}", ur.getUserReviewByEmail).Methods("GET")

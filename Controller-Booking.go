@@ -163,3 +163,49 @@ func (booking Booking) appendBookingRate(response http.ResponseWriter, request *
 	}
 	json.NewEncoder(response).Encode(result)
 }
+
+func (booking Booking) updateTransactionPostponed(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	params := mux.Vars(request)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	collection := client.Database("airbnb").Collection("bookings")
+	filter := bson.M{
+		"_id": id,
+	}
+	update := bson.M{
+		"$set": bson.M{
+			"transaction_status": "Postponed",
+		},
+	}
+
+	result, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	json.NewEncoder(response).Encode(result)
+}
+
+func (booking Booking) updateTransactionPayed(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("content-type", "application-json")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	params := mux.Vars(request)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	collection := client.Database("airbnb").Collection("bookings")
+	filter := bson.M{
+		"_id": id,
+	}
+	update := bson.M{
+		"$set": bson.M{
+			"transaction_status": "Payed",
+		},
+	}
+
+	result, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	json.NewEncoder(response).Encode(result)
+}

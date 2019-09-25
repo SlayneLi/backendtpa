@@ -9,5 +9,5 @@ type PeopleReview struct {
 	PostedTime    string             `json:"posted_time" bson:"posted_time"`
 	ReviewContent string             `json:"review_content" bson:"review_content"`
 	ReviewRate    float64            `json:"review_rate" bson:"review_rate"`
-	Email         string            `json:"email" bson:"email"`
+	Email         string             `json:"email" bson:"email"`
 }

@@ -40,10 +40,7 @@ func (userhistory UserHistory) getUserHistories(response http.ResponseWriter, re
 func (userhistory UserHistory) getUserHistoryByEmail(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application-json")
 	params := mux.Vars(request)
-	email, err := primitive.ObjectIDFromHex(params["email"])
-	if err != nil {
-		fmt.Fprintf(response, "%+v", params)
-	}
+	email := params["email"]
 	var userhistories []UserHistory
 	collection := client.Database("airbnb").Collection("user-histories")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
